@@ -97,25 +97,3 @@ class Board:
           print("South score: "+str(south_score))
      
  
-###########
-#   Run   #
-###########
- 
-# Initialise a Board object
-b = Board("Bob",3, 0)
- 
-#Try a valid move
-b.move(0)
-b.move(7)
-b.move(2)
-b.move(3)
-b.move(8)
-b.move(1)
-
-
-
-
-# Create a "computer" function who plays "one move think"
-# Have a think about how to "learn" to play better... can't do supervised learning so play itself and learn?
-# GitHub-ify code (restructure so only code changes are committed and running stuff is elsewhere, create a package and add funcs from that??)
-# Create dev branch in GitHub
