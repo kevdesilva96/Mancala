@@ -76,8 +76,8 @@ class Board:
             print("Free turn!")
             # Give another turn
             turn -= 1
-          #Check if capture happened (last seed + single seed in pit + opposite side non empty + not home)
-          elif numSeed==0 and self.arr[currentPit]==1 and self.arr[12-currentPit] != 0 and currentPit != home:
+              #Check if capture happened (last seed + single seed in pit + opposite side non empty + not home + landing in own pit)
+              elif numSeed==0 and self.arr[currentPit]==1 and self.arr[12-currentPit] != 0 and currentPit != home and math.floor(currentPit/7)+1==player:
             #Capture opponents seeds and remove single seed
             print("Capture!")
             self.arr[home] += self.arr[12-currentPit] + 1
