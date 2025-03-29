@@ -47,9 +47,11 @@ class Board:
     elif math.floor(pos/7)+1!=player:
       return print("ERROR: Not your turn!")
     else:
-      print("Turn number: "+str(self.turn))
       # Increment turn counter
       self.turn += 1
+
+      print("Turn number: "+str(self.turn)+" Chosen pit: "+str(pos))
+
       #Store number of seeds in numSeed
       numSeed=self.arr[pos]
      
