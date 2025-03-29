@@ -23,10 +23,10 @@ class Board:
     print(str(self.arr[13])+"           "+str(self.arr[6]))
     print(" "+str(self.arr[0])+" "+str(self.arr[1])+" "+str(self.arr[2])+" "+str(self.arr[3])+" "+str(self.arr[4])+" "+str(self.arr[5])+" ")
     print("____________")
- 
+
   # Method to choose piece, update board and show
   def move(self,pos):
- 
+      
     #Determine which player is moving/which pit to skip
     if self.turn%2==1:
         player=2
