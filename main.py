@@ -15,7 +15,7 @@ class Board:
     self.turn = 0
     print("Board name: "+self.name)
     self.show_board()
-   # Test GitHub change
+
   # Method to show state of board (simple for now...)
   def show_board(self):
     print("____________")
@@ -58,7 +58,7 @@ class Board:
  
       #Set current pit to next one along
       currentPit=pos+1
- # Test GitHub change
+
       #Increment pits along the chain, starting from next position along until the count runs out
       while numSeed > 0:
           #"Attach" the ends of the boards together
