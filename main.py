@@ -36,7 +36,7 @@ class Board:
         player=1
         skippit=6
         home=13
-    print("pos="+str(pos)+"turn="+str(self.turn)+""+"player="+str(player))
+
     #Check if choosing valid pit (cannot be home pits or empty pits or out of range or not your turn)
     if pos==6 or pos==13:
         return print("ERROR: Cannot select home pits")
