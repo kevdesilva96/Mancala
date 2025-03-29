@@ -116,4 +116,6 @@ b.move(1)
 
 
 # Create a "computer" function who plays "one move think"
-# 
+# Have a think about how to "learn" to play better... can't do supervised learning so play itself and learn?
+# GitHub-ify code (restructure so only code changes are committed and running stuff is elsewhere, create a package and add funcs from that??)
+# Create dev branch in GitHub
