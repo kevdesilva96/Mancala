@@ -9,7 +9,7 @@ import math
  
 # Create Board class to create a named board for a given seed number in each pit
 class Board:
-  def __init__(self, name, seeds, turn):
+  def __init__(self, name, seeds):
     self.name = name
     self.arr = [seeds,seeds,seeds,seeds,seeds,seeds,0,seeds,seeds,seeds,seeds,seeds,seeds,0]
     self.turn = 0
