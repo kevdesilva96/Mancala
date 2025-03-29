@@ -89,11 +89,23 @@ class Board:
       self.show_board()
  
       #Check if end of game
-      if self.arr[0]+self.arr[1]+self.arr[2]+self.arr[3]+self.arr[4]+self.arr[5]==0 or self.arr[7]+self.arr[8]+self.arr[9]+self.arr[10]+self.arr[11]+self.arr[12]==0:
-          south_score=self.arr[0]+self.arr[1]+self.arr[2]+self.arr[3]+self.arr[4]+self.arr[5]+self.arr[6]
-          north_score=self.arr[7]+self.arr[8]+self.arr[9]+self.arr[10]+self.arr[11]+self.arr[12]+self.arr[13]
-          print("End of game!")
-          print("North score: "+str(north_score))
-          print("South score: "+str(south_score))
+      # if self.arr[0]+self.arr[1]+self.arr[2]+self.arr[3]+self.arr[4]+self.arr[5]==0 or self.arr[7]+self.arr[8]+self.arr[9]+self.arr[10]+self.arr[11]+self.arr[12]==0:
+      #     south_score=self.arr[0]+self.arr[1]+self.arr[2]+self.arr[3]+self.arr[4]+self.arr[5]+self.arr[6]
+      #     north_score=self.arr[7]+self.arr[8]+self.arr[9]+self.arr[10]+self.arr[11]+self.arr[12]+self.arr[13]
+      #     print("End of game!")
+      #     print("North score: "+str(north_score))
+      #     print("South score: "+str(south_score))
+      if sum([self.arr[i] for i in range(0,5)])==0 or sum([self.arr[i] for i in range(7,12)])==0:
+        south_score=sum([self.arr[i] for i in range(0,6)])
+        north_score=sum([self.arr[i] for i in range(7,13)])
+        print("End of game!")
+        print("North score: "+str(north_score))
+        print("South score: "+str(south_score))
      
- 
+def end_check(board):
+  if sum([board.arr[i] for i in range(0,5)])==0 or sum([board.arr[i] for i in range(7,12)])==0:
+    south_score=sum([board.arr[i] for i in range(0,6)])
+    north_score=sum([board.arr[i] for i in range(7,13)])
+    print("End of game!")
+    print("North score: "+str(north_score))
+    print("South score: "+str(south_score))
