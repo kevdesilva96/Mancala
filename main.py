@@ -24,12 +24,12 @@ class Board:
     #Determine which player is moving/which pit to skip
     if self.turn%2==1:
         player=2
-        skippit=13
-        home=6
-    if self.turn%2==0:
-        player=1
         skippit=6
         home=13
+    if self.turn%2==0:
+        player=1
+        skippit=13
+        home=6
 
     #Check if choosing valid pit (cannot be home pits or empty pits or out of range or not your turn)
     if math.floor(pos/7)+1!=player:
