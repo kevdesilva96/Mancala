@@ -32,14 +32,14 @@ class Board:
         home=13
 
     #Check if choosing valid pit (cannot be home pits or empty pits or out of range or not your turn)
-    if pos==6 or pos==13:
+    if math.floor(pos/7)+1!=player:
+      return print("ERROR: Not your turn!")
+    elif pos==6 or pos==13:
         return print("ERROR: Cannot select home pits")
     elif self.arr[pos]==0:
       return print("ERROR: Cannot select empty pits")
     elif pos<0 or pos>13:
       return print("ERROR: Pit choice out of range")
-    elif math.floor(pos/7)+1!=player:
-      return print("ERROR: Not your turn!")
     else:
       # Increment turn counter
       self.turn += 1
