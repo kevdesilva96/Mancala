@@ -14,15 +14,9 @@ class Board:
     self.arr = [seeds,seeds,seeds,seeds,seeds,seeds,0,seeds,seeds,seeds,seeds,seeds,seeds,0]
     self.turn = 0
     print("Board name: "+self.name)
-    self.show_board()
+    show_board(self)
 
-  # Method to show state of board (simple for now...)
-  def show_board(self):
-    print("____________")
-    print(" "+str(self.arr[12])+" "+str(self.arr[11])+" "+str(self.arr[10])+" "+str(self.arr[9])+" "+str(self.arr[8])+" "+str(self.arr[7])+" ")
-    print(str(self.arr[13])+"           "+str(self.arr[6]))
-    print(" "+str(self.arr[0])+" "+str(self.arr[1])+" "+str(self.arr[2])+" "+str(self.arr[3])+" "+str(self.arr[4])+" "+str(self.arr[5])+" ")
-    print("____________")
+
 
   # Method to choose piece, update board and show
   def move(self,pos):
@@ -88,7 +82,7 @@ class Board:
           currentPit += 1
      
  
-      self.show_board()
+      show_board(self)
  
       #Check if end of game
       end_check(self)
@@ -100,3 +94,11 @@ def end_check(board):
     print("End of game!")
     print("North score: "+str(north_score))
     print("South score: "+str(south_score))
+
+# Function to show board given board
+def show_board(board):
+  print("____________")
+  print(" "+str(board.arr[12])+" "+str(board.arr[11])+" "+str(board.arr[10])+" "+str(board.arr[9])+" "+str(board.arr[8])+" "+str(board.arr[7])+" ")
+  print(str(board.arr[13])+"           "+str(board.arr[6]))
+  print(" "+str(board.arr[0])+" "+str(board.arr[1])+" "+str(board.arr[2])+" "+str(board.arr[3])+" "+str(board.arr[4])+" "+str(board.arr[5])+" ")
+  print("____________")
