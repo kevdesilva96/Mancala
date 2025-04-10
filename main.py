@@ -86,7 +86,8 @@ class Board:
  
       #Check if end of game
       end_check(self)
-     
+
+# Function to check end of game given board
 def end_check(board):
   if sum([board.arr[i] for i in range(0,6)])==0 or sum([board.arr[i] for i in range(7,13)])==0:
     south_score=sum([board.arr[i] for i in range(0,6)])
