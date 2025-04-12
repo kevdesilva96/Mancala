@@ -63,16 +63,7 @@ class Board:
         skippit=13
         home=6
 
-    #Check if choosing valid pit (cannot be home pits or empty pits or out of range or not your turn)
-    if math.floor(pos/7)+1!=player:
-      return print("ERROR: Not your turn!")
-    elif pos==6 or pos==13:
-        return print("ERROR: Cannot select home pits")
-    elif self.arr[pos]==0:
-      return print("ERROR: Cannot select empty pits")
-    elif pos<0 or pos>13:
-      return print("ERROR: Pit choice out of range")
-    else:
+    if move_valid(self,pos):
       # Increment turn counter
       self.turn += 1
 
@@ -118,6 +109,34 @@ class Board:
  
       #Check if end of game
       end_check(self)
+
+# Function to check valid move
+def move_valid(board,pos):
+  #Determine which player is moving/which pit to skip
+  if board.turn%2==1:
+      player=2
+      skippit=6
+      home=13
+  if board.turn%2==0:
+      player=1
+      skippit=13
+      home=6
+  
+  if math.floor(pos/7)+1!=player:
+    print("ERROR: Not your turn!")
+    return False
+  elif pos==6 or pos==13:
+    print("ERROR: Cannot select home pits")
+    return False
+  elif board.arr[pos]==0:
+    print("ERROR: Cannot select empty pits")
+    return False
+  elif pos<0 or pos>13:
+    print("ERROR: Pit choice out of range")
+    return False
+  else:
+     return True
+
 
 # Function to check end of game given board
 def end_check(board):
