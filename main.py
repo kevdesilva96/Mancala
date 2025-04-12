@@ -141,6 +141,7 @@ def move_valid(board,pos):
 # Function to check end of game given board
 def end_check(board):
   if sum([board.arr[i] for i in range(0,6)])==0 or sum([board.arr[i] for i in range(7,13)])==0:
+    end_flag=1
     south_score=sum([board.arr[i] for i in range(0,7)])
     north_score=sum([board.arr[i] for i in range(7,14)])
     print("End of game!")
