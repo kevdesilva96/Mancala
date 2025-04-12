@@ -7,7 +7,41 @@ import random
 ###########
 #Functions#
 ###########
- 
+
+# Create Game function to create a named game with option of player/CPU
+def Game(name):
+
+  # Set variables
+  global end_flag
+  end_flag=0
+
+  # Initialise Game with a board of 3 seeds and show
+  BoardObj=Board(name,3)
+  show_board(BoardObj)
+  # Player or CPU option
+  cpu=input("Game with Player or CPU?")
+  if cpu=="CPU":
+      cpu_flag=1
+  else:
+      cpu_flag=0
+
+  # Loop over game until end
+  while end_flag == 0:
+
+    if BoardObj.turn%2==0:
+      # Player 1 turn
+      p1=input("Player 1: Pick a pit")
+      BoardObj.move(int(p1))
+    else:
+      #Player 2 turn
+      if cpu_flag==1:
+        # CPU turn
+        BoardObj.move(cpu_move(BoardObj,"random"))
+      else:
+        # Player 2 turn
+        p2=input("Player 2: Pick a pit")
+        BoardObj.move(int(p2))
+
 # Create Board class to create a named board for a given seed number in each pit
 class Board:
   def __init__(self, name, seeds):
