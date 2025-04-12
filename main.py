@@ -2,6 +2,7 @@
  
 # Import packages
 import math
+import random
  
 ###########
 #Functions#
@@ -103,3 +104,18 @@ def show_board(board):
   print(str(board.arr[13])+"           "+str(board.arr[6]))
   print(" "+str(board.arr[0])+" "+str(board.arr[1])+" "+str(board.arr[2])+" "+str(board.arr[3])+" "+str(board.arr[4])+" "+str(board.arr[5])+" ")
   print("____________")
+
+# Function to make a CPU
+def cpu_move(board,cpu_option):
+   if cpu_option=="random":
+      choice_count=0
+      # Keep trying to pick random moves until valid one picked (max limit of 100)
+      while choice_count <= 100:
+        cpu_choice=random.choice([7,8,9,10,11,12])
+        if move_valid(board,cpu_choice):
+          return cpu_choice
+        choice_count += 1
+      print("Cannot pick move")
+      quit
+ 
+
