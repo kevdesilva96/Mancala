@@ -48,9 +48,6 @@ class Board:
     self.name = name
     self.arr = [seeds,seeds,seeds,seeds,seeds,seeds,0,seeds,seeds,seeds,seeds,seeds,seeds,0]
     self.turn = 0
-    print("Board name: "+self.name)
-    show_board(self)
-
 
 
   # Method to choose piece, update board and show
