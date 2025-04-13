@@ -3,6 +3,11 @@
 # Import packages
 import math
 import random
+
+import pygame 
+  
+pygame.init() 
+pygame.font.init()
  
 ###########
 #Functions#
@@ -172,4 +177,37 @@ def cpu_move(board,cpu_option):
       print("Cannot pick move")
       quit
  
+# Function to visualize game board
+def visualize(BoardObj):
+   
+  white = (255,255,255) 
+  black = (0,0,0) 
 
+  # CREATING CANVAS 
+  screen_size=1000
+  circle_size=40
+  canvas = pygame.display.set_mode((screen_size,screen_size)) 
+
+  # TITLE OF CANVAS 
+  pygame.display.set_caption("Mancala") 
+
+  exit = False
+
+  while not exit: 
+    canvas.fill(white) 
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT: 
+            exit = True
+
+    # Homes
+    pygame.draw.circle(canvas, black, (60,screen_size/2),circle_size,2)
+    pygame.draw.circle(canvas, black, (screen_size-60,screen_size/2),circle_size,2)
+
+    # North circles
+    for i in range(6):
+      pygame.draw.circle(canvas, black, (180+i*screen_size/8,screen_size/2-50),circle_size,2)
+    # South circles
+    for i in range(6):
+      pygame.draw.circle(canvas, black, (180+i*screen_size/8,screen_size/2+50),circle_size,2)
+    
+    pygame.display.update()
