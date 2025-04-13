@@ -153,6 +153,7 @@ def end_check(board):
     print("End of game!")
     print("North score: "+str(north_score))
     print("South score: "+str(south_score))
+    quit
 
 # Function to show board given board
 def show_board(board):
