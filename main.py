@@ -45,11 +45,14 @@ def Game(name):
       # Player 1 turn
       p1=input("Player 1: Pick a pit")
       BoardObj.move(int(p1))
+      print("Turn number: "+str(BoardObj.turn)+" Chosen pit: "+str(p1))
     else:
       #Player 2 turn
       if cpu_flag==1:
         # CPU turn
-        BoardObj.move(cpu_move(BoardObj,"random"))
+        cpu_pos=cpu_move(BoardObj,"random")
+        BoardObj.move(cpu_pos)
+        print("Turn number: "+str(BoardObj.turn)+" Chosen pit: "+str(cpu_pos))
       else:
         # Player 2 turn
         p2=input("Player 2: Pick a pit")
