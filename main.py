@@ -109,12 +109,8 @@ class Board:
              
           #Increment current pit
           currentPit += 1
-     
  
-      show_board(self)
- 
-      #Check if end of game
-      end_check(self)
+
 
 # Function to check valid move
 def move_valid(board,pos):
