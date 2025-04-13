@@ -12,7 +12,7 @@ import random
 def Game(name):
 
   # Set variables
-  global end_flag
+  global end_flag, player, skippit, home
   end_flag=0
 
   # Initialise Game with a board of 3 seeds and show
@@ -28,6 +28,19 @@ def Game(name):
   # Loop over game until end
   while end_flag == 0:
 
+    # Show board
+    show_board(BoardObj)
+
+    #Determine which player is moving/which pit to skip
+    if BoardObj.turn%2==1:
+        player=2
+        skippit=6
+        home=13
+    if BoardObj.turn%2==0:
+        player=1
+        skippit=13
+        home=6
+
     if BoardObj.turn%2==0:
       # Player 1 turn
       p1=input("Player 1: Pick a pit")
@@ -41,6 +54,12 @@ def Game(name):
         # Player 2 turn
         p2=input("Player 2: Pick a pit")
         BoardObj.move(int(p2))
+        print("Turn number: "+str(BoardObj.turn)+" Chosen pit: "+str(p1))
+
+    # Increment turn counter
+    BoardObj.turn += 1
+    # Check if end of game
+    end_check(BoardObj)
 
 # Create Board class to create a named board for a given seed number in each pit
 class Board:
@@ -52,29 +71,13 @@ class Board:
 
   # Method to choose piece, update board and show
   def move(self,pos):
-      
-    #Determine which player is moving/which pit to skip
-    if self.turn%2==1:
-        player=2
-        skippit=6
-        home=13
-    if self.turn%2==0:
-        player=1
-        skippit=13
-        home=6
 
     if move_valid(self,pos):
-      # Increment turn counter
-      self.turn += 1
-
-      print("Turn number: "+str(self.turn)+" Chosen pit: "+str(pos))
 
       #Store number of seeds in numSeed
       numSeed=self.arr[pos]
-     
       #Set seed count in pos to 0
       self.arr[pos]=0
- 
       #Set current pit to next one along
       currentPit=pos+1
 
