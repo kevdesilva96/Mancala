@@ -181,11 +181,18 @@ def cpu_move(board,cpu_option):
 def visualize(BoardObj):
    
   white = (255,255,255) 
-  black = (0,0,0) 
+  black = (0,0,0)
+
+  # Texts
+  font1 = pygame.font.SysFont('freesanbold.ttf', 50)
+  for i in range(14):
+    globals()["text"+str(i)] = font1.render(str(BoardObj.arr[i]), True, black)
+
 
   # CREATING CANVAS 
   screen_size=1000
   circle_size=40
+  circle_offset=20
   canvas = pygame.display.set_mode((screen_size,screen_size)) 
 
   # TITLE OF CANVAS 
@@ -201,13 +208,16 @@ def visualize(BoardObj):
 
     # Homes
     pygame.draw.circle(canvas, black, (60,screen_size/2),circle_size,2)
+    canvas.blit(text13, (60-circle_offset,screen_size/2-circle_offset))
     pygame.draw.circle(canvas, black, (screen_size-60,screen_size/2),circle_size,2)
+    canvas.blit(text6, (screen_size-60-circle_offset,screen_size/2-circle_offset))
 
     # North circles
     for i in range(6):
       pygame.draw.circle(canvas, black, (180+i*screen_size/8,screen_size/2-50),circle_size,2)
+      canvas.blit(globals()["text"+str(i)], (180+i*screen_size/8-circle_offset,screen_size/2-50-circle_offset))
     # South circles
     for i in range(6):
       pygame.draw.circle(canvas, black, (180+i*screen_size/8,screen_size/2+50),circle_size,2)
-    
+      canvas.blit(globals()["text"+str(i)], (180+i*screen_size/8-circle_offset,screen_size/2+50-circle_offset))
     pygame.display.update()
