@@ -80,7 +80,7 @@ class Board:
   # Method to choose piece, update board and show
   def move(self,pos):
 
-    if move_valid(self,pos):
+    if move_valid(self,pos,err_msg=1):
 
       #Store number of seeds in numSeed
       numSeed=self.arr[pos]
@@ -175,7 +175,7 @@ def cpu_move(board,cpu_option):
       # Keep trying to pick random moves until valid one picked (max limit of 100)
       while choice_count <= 100:
         cpu_choice=random.choice([7,8,9,10,11,12])
-        if move_valid(board,cpu_choice):
+        if move_valid(board,cpu_choice,err_msg=0):
           return cpu_choice
         choice_count += 1
       print("Cannot pick move")
