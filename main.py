@@ -6,8 +6,7 @@ import random
 
 import pygame 
   
-pygame.init() 
-pygame.font.init()
+
  
 ###########
 #Functions#
@@ -16,25 +15,62 @@ pygame.font.init()
 # Create Game function to create a named game with option of player/CPU
 def Game(name):
 
+  # Initialise Pygame bits
+  pygame.init() 
+  pygame.font.init()
   # Set variables
-  global end_flag, player, skippit, home
-  end_flag=0
+  global player, skippit, home
 
   # Initialise Game with a board of 3 seeds and show
   BoardObj=Board(name,3)
-  show_board(BoardObj)
+
+
+  # COLOURS
+  white = (255,255,255) 
+  black = (0,0,0)
+  # CREATING CANVAS 
+  screen_size=1000
+  circle_size=40
+  circle_offset=20
+  global canvas,objects
+  canvas = pygame.display.set_mode((screen_size,screen_size)) 
+  # TITLE OF CANVAS 
+  pygame.display.set_caption("Mancala")
+  # OBJECTS LIST
+  objects = []
+
   # Player or CPU option
-  cpu=input("Game with Player or CPU?")
-  if cpu=="CPU":
-      cpu_flag=1
-  else:
-      cpu_flag=0
+  # cpu=input("Game with Player or CPU?")
+  # if cpu=="CPU":
+  #     cpu_flag=1
+  # else:
+  #     cpu_flag=0
+  cpu_flag=1
+
+  # Texts
+  font1 = pygame.font.SysFont('freesanbold.ttf', 50)
+  for i in range(14):
+    globals()["text"+str(i)] = font1.render(str(BoardObj.arr[i]), True, black)
+    
+  # Define Buttons
+  # Homes
+  Button(60,screen_size/2,40,40,str(BoardObj.arr[13]),font1,black,testfunc,True)
+  Button(screen_size-60,screen_size/2,40,40,str(BoardObj.arr[6]),font1,black,testfunc,True)
+  # North pits
+  for i in range(6):
+    Button(screen_size-180-i*screen_size/8-circle_offset,screen_size/2+50,40,40,str(BoardObj.arr[i+7]),font1,black,testfunc,True)
+  # South pits
+  for i in range(6):
+    Button(180+i*screen_size/8-circle_offset,screen_size/2-50,40,40,str(BoardObj.arr[i]),font1,black,testfunc,True)
 
   # Loop over game until end
-  while end_flag == 0:
-
-    # Show board
-    show_board(BoardObj)
+  while True:
+    
+    # Show board + initialise pygame
+        # EVENT CHECKER
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT:
+            pygame.quit()
 
     #Determine which player is moving/which pit to skip
     if BoardObj.turn%2==1:
@@ -46,28 +82,21 @@ def Game(name):
         skippit=13
         home=6
 
-    if BoardObj.turn%2==0:
-      # Player 1 turn
-      p1=input("Player 1: Pick a pit")
-      BoardObj.move(int(p1))
-      print("Turn number: "+str(BoardObj.turn)+" Chosen pit: "+str(p1))
-    else:
-      #Player 2 turn
-      if cpu_flag==1:
-        # CPU turn
-        cpu_pos=cpu_move(BoardObj,"random")
-        BoardObj.move(cpu_pos)
-        print("Turn number: "+str(BoardObj.turn)+" Chosen pit: "+str(cpu_pos))
-      else:
-        # Player 2 turn
-        p2=input("Player 2: Pick a pit")
-        BoardObj.move(int(p2))
-        print("Turn number: "+str(BoardObj.turn)+" Chosen pit: "+str(p1))
 
-    # Increment turn counter
-    BoardObj.turn += 1
+
+    # UPDATES
+    canvas.fill(white)
+
+
+    for object in objects:
+      object.process()
+    pygame.display.flip()
+
     # Check if end of game
-    end_check(BoardObj)
+    if end_check(BoardObj):
+       end_flag=1
+       pygame.quit()
+
 
 # Create Board class to create a named board for a given seed number in each pit
 class Board:
@@ -81,7 +110,8 @@ class Board:
   def move(self,pos):
 
     if move_valid(self,pos,err_msg=1):
-
+      # Increment turn counter
+      self.turn += 1
       #Store number of seeds in numSeed
       numSeed=self.arr[pos]
       #Set seed count in pos to 0
@@ -152,13 +182,12 @@ def move_valid(board,pos,err_msg):
 # Function to check end of game given board
 def end_check(board):
   if sum([board.arr[i] for i in range(0,6)])==0 or sum([board.arr[i] for i in range(7,13)])==0:
-    end_flag=1
     south_score=sum([board.arr[i] for i in range(0,7)])
     north_score=sum([board.arr[i] for i in range(7,14)])
     print("End of game!")
     print("North score: "+str(north_score))
     print("South score: "+str(south_score))
-    quit
+    return True
 
 # Function to show board given board
 def show_board(board):
@@ -167,6 +196,7 @@ def show_board(board):
   print(str(board.arr[13])+"           "+str(board.arr[6]))
   print(" "+str(board.arr[0])+" "+str(board.arr[1])+" "+str(board.arr[2])+" "+str(board.arr[3])+" "+str(board.arr[4])+" "+str(board.arr[5])+" ")
   print("____________")
+  pygame.display.update()
 
 # Function to make a CPU
 def cpu_move(board,cpu_option):
@@ -181,47 +211,48 @@ def cpu_move(board,cpu_option):
       print("Cannot pick move")
       quit
  
-# Function to visualize game board
-def visualize(BoardObj):
-   
-  white = (255,255,255) 
-  black = (0,0,0)
+class Button():
+  def __init__(self, x, y, width, height, buttonText, font, colour, onclickFunction=None, onePress=False):
+    self.x = x
+    self.y = y
+    self.width = width
+    self.height = height
+    self.onclickFunction = onclickFunction
+    self.onePress = onePress
+    self.alreadyPressed = False
+    self.fillColors = {
+    'normal': '#FFFFFF',
+    'hover': '#666666',
+    'pressed': '#333333',
+    }
+    self.buttonSurface = pygame.Surface((self.width, self.height))
+    self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height)
+    self.buttonSurf = font.render(buttonText, True, colour)
+    objects.append(self)
 
-  # Texts
-  font1 = pygame.font.SysFont('freesanbold.ttf', 50)
-  for i in range(14):
-    globals()["text"+str(i)] = font1.render(str(BoardObj.arr[i]), True, black)
+  def process(self):
+    mousePos = pygame.mouse.get_pos()
+    self.buttonSurface.fill(self.fillColors['normal'])
+    # If mouse on button then hover
+    if self.buttonRect.collidepoint(mousePos):
+        self.buttonSurface.fill(self.fillColors['hover'])
+        # If mouse left click button then press
+        if pygame.mouse.get_pressed(num_buttons=3)[0]:
+          self.buttonSurface.fill(self.fillColors['pressed'])
+          if self.onePress and self.alreadyPressed==False:
+            self.onclickFunction()
+            self.alreadyPressed = True
+          elif self.onePress==False:
+            self.onclickFunction()
+        else:
+          # Button not being pressed
+          self.alreadyPressed = False
+    # Draw on screen
+    self.buttonSurface.blit(self.buttonSurf, [
+        self.buttonRect.width/2 - self.buttonSurf.get_rect().width/2,
+        self.buttonRect.height/2 - self.buttonSurf.get_rect().height/2
+    ])
+    canvas.blit(self.buttonSurface, self.buttonRect)
 
-
-  # CREATING CANVAS 
-  screen_size=1000
-  circle_size=40
-  circle_offset=20
-  canvas = pygame.display.set_mode((screen_size,screen_size)) 
-
-  # TITLE OF CANVAS 
-  pygame.display.set_caption("Mancala") 
-
-  exit = False
-
-  while not exit: 
-    canvas.fill(white) 
-    for event in pygame.event.get(): 
-        if event.type == pygame.QUIT: 
-            exit = True
-
-    # Homes
-    pygame.draw.circle(canvas, black, (60,screen_size/2),circle_size,2)
-    canvas.blit(text13, (60-circle_offset,screen_size/2-circle_offset))
-    pygame.draw.circle(canvas, black, (screen_size-60,screen_size/2),circle_size,2)
-    canvas.blit(text6, (screen_size-60-circle_offset,screen_size/2-circle_offset))
-
-    # North circles
-    for i in range(6):
-      pygame.draw.circle(canvas, black, (180+i*screen_size/8,screen_size/2-50),circle_size,2)
-      canvas.blit(globals()["text"+str(i)], (180+i*screen_size/8-circle_offset,screen_size/2-50-circle_offset))
-    # South circles
-    for i in range(6):
-      pygame.draw.circle(canvas, black, (180+i*screen_size/8,screen_size/2+50),circle_size,2)
-      canvas.blit(globals()["text"+str(i)], (180+i*screen_size/8-circle_offset,screen_size/2+50-circle_offset))
-    pygame.display.update()
+def testfunc():
+  return print("test")
