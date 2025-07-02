@@ -54,14 +54,14 @@ def Game(name):
     
   # Define Buttons
   # Homes
-  Button(60,screen_size/2,40,40,str(BoardObj.arr[13]),font1,black,testfunc,True)
-  Button(screen_size-60,screen_size/2,40,40,str(BoardObj.arr[6]),font1,black,testfunc,True)
+  Button(60,screen_size/2,40,40,BoardObj.arr[13],font1,black,BoardObj.move,13,True)
+  Button(screen_size-60,screen_size/2,40,40,BoardObj.arr[6],font1,black,BoardObj.move,6,True)
   # North pits
   for i in range(6):
-    Button(screen_size-180-i*screen_size/8-circle_offset,screen_size/2+50,40,40,str(BoardObj.arr[i+7]),font1,black,testfunc,True)
+    Button(screen_size-180-i*screen_size/8-circle_offset,screen_size/2+50,40,40,BoardObj.arr[i+7],font1,black,BoardObj.move,i+7,True)
   # South pits
   for i in range(6):
-    Button(180+i*screen_size/8-circle_offset,screen_size/2-50,40,40,str(BoardObj.arr[i]),font1,black,testfunc,True)
+    Button(180+i*screen_size/8-circle_offset,screen_size/2-50,40,40,BoardObj.arr[i],font1,black,BoardObj.move,i,True)
 
   # Loop over game until end
   while True:
@@ -212,14 +212,17 @@ def cpu_move(board,cpu_option):
       quit
  
 class Button():
-  def __init__(self, x, y, width, height, buttonText, font, colour, onclickFunction=None, onePress=False):
+  def __init__(self, x, y, width, height, buttonText, font, colour, onclickFunction=None, functionParam=None, onePress=False):
     self.x = x
     self.y = y
     self.width = width
     self.height = height
     self.onclickFunction = onclickFunction
+    self.functionParam = functionParam
     self.onePress = onePress
     self.alreadyPressed = False
+    self.font = font
+    self.buttonText = buttonText
     self.fillColors = {
     'normal': '#FFFFFF',
     'hover': '#666666',
@@ -227,7 +230,7 @@ class Button():
     }
     self.buttonSurface = pygame.Surface((self.width, self.height))
     self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height)
-    self.buttonSurf = font.render(buttonText, True, colour)
+    self.buttonSurf = font.render(f"{buttonText}", True, colour)
     objects.append(self)
 
   def process(self):
@@ -240,14 +243,14 @@ class Button():
         if pygame.mouse.get_pressed(num_buttons=3)[0]:
           self.buttonSurface.fill(self.fillColors['pressed'])
           if self.onePress and self.alreadyPressed==False:
-            self.onclickFunction()
+            self.onclickFunction(self.functionParam)
             self.alreadyPressed = True
           elif self.onePress==False:
-            self.onclickFunction()
+            self.onclickFunction(self.functionParam)
         else:
           # Button not being pressed
           self.alreadyPressed = False
-    # Draw on screen
+    # Draw text
     self.buttonSurface.blit(self.buttonSurf, [
         self.buttonRect.width/2 - self.buttonSurf.get_rect().width/2,
         self.buttonRect.height/2 - self.buttonSurf.get_rect().height/2
