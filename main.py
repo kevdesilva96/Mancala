@@ -106,7 +106,7 @@ def Game(name):
 
 
     for object in objects:
-      object.process()
+      object.process(boardObj=BoardObj)
     pygame.display.flip()
 
     # Check if end of game
@@ -250,8 +250,10 @@ class Button():
     self.buttonSurf = font.render(f"{buttonText}", True, colour)
     objects.append(self)
 
-  def process(self):
+  def process(self,boardObj):
     mousePos = pygame.mouse.get_pos()
+    self.buttonText=boardObj.arr[self.functionParam]
+    self.buttonSurf = self.font.render(f"{self.buttonText}", True, (0,0,0))
     self.buttonSurface.fill(self.fillColors['normal'])
     # If mouse on button then hover
     if self.buttonRect.collidepoint(mousePos):
