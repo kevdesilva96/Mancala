@@ -45,7 +45,7 @@ def Game(name):
   #     cpu_flag=1
   # else:
   #     cpu_flag=0
-  cpu_flag=1
+  cpu_flag=1 
 
   # Texts
   font1 = pygame.font.SysFont('freesanbold.ttf', 50)
@@ -105,6 +105,11 @@ def Game(name):
     for object in objects:
       object.process(boardObj=BoardObj)
     pygame.display.flip()
+
+    # Do CPU move if CPU playing
+    if cpu_flag==1 and player==2:
+      pygame.time.wait(1000)
+      BoardObj.move(cpu_move(BoardObj,"random"))  
 
     # Check if end of game
     if end_check(BoardObj):
