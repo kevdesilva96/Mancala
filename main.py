@@ -99,11 +99,8 @@ def Game(name):
         skippit=13
         home=6
 
-
-
     # UPDATES
     canvas.fill(white)
-
 
     for object in objects:
       object.process(boardObj=BoardObj)
@@ -111,7 +108,11 @@ def Game(name):
 
     # Check if end of game
     if end_check(BoardObj):
-       end_flag=1
+       quit_flag=0
+       while quit_flag==0:
+          for event in pygame.event.get(): 
+            if event.type == pygame.QUIT:
+              quit_flag=1
        pygame.quit()
 
 
