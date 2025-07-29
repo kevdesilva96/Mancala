@@ -54,15 +54,32 @@ def Game(name):
     
   # Define Buttons
   # Homes
-  Button(60,screen_size/2,40,40,BoardObj.arr[13],font1,black,BoardObj.move,13,True)
-  Button(screen_size-60,screen_size/2,40,40,BoardObj.arr[6],font1,black,BoardObj.move,6,True)
+  Button(x=60,y=screen_size/2
+         ,width=40,height=40
+         ,buttonText=BoardObj.arr[13]
+         ,font=font1,colour=black
+         ,onclickFunction=BoardObj.move,functionParam=13,onePress=True)
+  Button(x=screen_size-60,y=screen_size/2
+         ,width=40,height=40
+         ,buttonText=BoardObj.arr[6]
+         ,font=font1,colour=black
+         ,onclickFunction=BoardObj.move,functionParam=6,onePress=True)
   # North pits
   for i in range(6):
-    Button(screen_size-180-i*screen_size/8-circle_offset,screen_size/2+50,40,40,BoardObj.arr[i+7],font1,black,BoardObj.move,i+7,True)
+    Button(x=screen_size-180-i*screen_size/8-circle_offset
+          ,y=screen_size/2+50
+          ,width=40,height=40
+          ,buttonText=BoardObj.arr[i+7]
+          ,font=font1,colour=black
+          ,onclickFunction=BoardObj.move,functionParam=i+7,onePress=True)
   # South pits
   for i in range(6):
-    Button(180+i*screen_size/8-circle_offset,screen_size/2-50,40,40,BoardObj.arr[i],font1,black,BoardObj.move,i,True)
-
+    Button(x=180+i*screen_size/8-circle_offset
+           ,y=screen_size/2-50
+           ,width=40,height=40
+           ,buttonText=BoardObj.arr[i]
+           ,font=font1,colour=black
+           ,onclickFunction=BoardObj.move,functionParam=i,onePress=True)
   # Loop over game until end
   while True:
     
