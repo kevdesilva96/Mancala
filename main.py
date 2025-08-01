@@ -3,6 +3,7 @@
 # Import packages
 import math
 import random
+import copy
 
 import pygame 
   
