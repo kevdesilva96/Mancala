@@ -109,7 +109,7 @@ def Game(name):
     # Do CPU move if CPU playing
     if cpu_flag==1 and player==2:
       pygame.time.wait(1000)
-      BoardObj.move(cpu_move(BoardObj,"random"))  
+      BoardObj.move(cpu_move(BoardObj,"scaredycat"))  
 
     # Check if end of game
     if end_check(BoardObj):
@@ -233,6 +233,25 @@ def cpu_move(board,cpu_option):
         choice_count += 1
       print("Cannot pick move")
       quit
+
+   if cpu_option=="scaredycat":
+      # Tries to think one move ahead and prioritise choice based on number of seeds in home+own pits
+      outcome = {12:0,11:0,10:0,9:0,8:0,7:0}
+      # Take copy of board object and update outcome list with value
+      for i in range(6): 
+        boardCopy = copy.deepcopy(board)
+        if move_valid(boardCopy,i+7,err_msg=0):
+          boardCopy.move(i+7,msgs=0)
+          outcome[i+7]=boardCopy.arr[7]+boardCopy.arr[8]+boardCopy.arr[9]+boardCopy.arr[10]+boardCopy.arr[11]+boardCopy.arr[12]+boardCopy.arr[13]
+      # Pick max value and return choice
+      outcome_sorted = {}
+      for key in sorted(outcome, key=outcome.get, reverse=True):
+        outcome_sorted[key] = outcome[key]
+      # Pick first choice in list
+      cpu_choice=list(outcome_sorted.keys())[0]
+      return cpu_choice
+
+
  
 class Button():
   def __init__(self, x, y, width, height, buttonText, font, colour, onclickFunction=None, functionParam=None, onePress=False):
