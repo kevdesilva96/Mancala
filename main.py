@@ -128,11 +128,15 @@ class Board:
     self.name = name
     self.arr = [seeds,seeds,seeds,seeds,seeds,seeds,0,seeds,seeds,seeds,seeds,seeds,seeds,0]
     self.turn = 0
+    self.capture_flag = -1
+    self.free_flag = 0
 
 
   # Method to choose piece, update board and show
-  def move(self,pos):
-
+  def move(self,pos,msgs=1):
+    # Set colour flags to 0
+    self.free_flag = 0
+    self.capture_flag = -1
     if move_valid(self,pos,err_msg=1):
       # Increment turn counter
       self.turn += 1
@@ -155,14 +159,18 @@ class Board:
               self.arr[currentPit] += 1
               #Check for free turn (last seed + home)
               if numSeed==0 and currentPit==home:
-                  print("Free turn!")
+                  if msgs==1:
+                     print("Free turn!")
                   # Give another turn
                   self.turn -= 1
+                  self.free_flag=1
               #Check if capture happened (last seed + single seed in pit + opposite side non empty + not home + landing in own pit)
               elif numSeed==0 and self.arr[currentPit]==1 and self.arr[12-currentPit] != 0 and currentPit != home and math.floor(currentPit/7)+1==player:
                   #Capture opponents seeds and remove single seed
-                  print("Capture!")
+                  if msgs==1:
+                    print("Capture!")
                   self.arr[home] += self.arr[12-currentPit] + 1
+                  self.capture_flag = 12-currentPit
                   self.arr[12-currentPit]=0
                   self.arr[currentPit]=0
              
@@ -270,6 +278,8 @@ class Button():
     'normal': '#FFFFFF',
     'hover': '#666666',
     'pressed': '#333333',
+    'turn' : '#C1FFB3',
+    'capture' : '#FA9696'
     }
     self.buttonSurface = pygame.Surface((self.width, self.height))
     self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -281,6 +291,19 @@ class Button():
     self.buttonText=boardObj.arr[self.functionParam]
     self.buttonSurf = self.font.render(f"{self.buttonText}", True, (0,0,0))
     self.buttonSurface.fill(self.fillColors['normal'])
+    # Colour pits of current player that aren't empty
+    if boardObj.turn%2==0 and boardObj.arr[self.functionParam]!=0 and (self.functionParam>=0 and self.functionParam < 6):
+        self.buttonSurface.fill(self.fillColors['turn'])
+    if boardObj.turn%2==1 and boardObj.arr[self.functionParam]!=0 and (self.functionParam>=7 and self.functionParam < 13):
+        self.buttonSurface.fill(self.fillColors['turn'])
+    # Colour home pits if free turn
+    if boardObj.turn%2==0 and boardObj.free_flag==1 and self.functionParam==6:
+        self.buttonSurface.fill(self.fillColors['turn'])
+    if boardObj.turn%2==1 and boardObj.free_flag==1 and self.functionParam==13:
+        self.buttonSurface.fill(self.fillColors['turn'])
+    # Colour capture pit if capture
+    if boardObj.capture_flag!= -1 and self.functionParam==boardObj.capture_flag:
+       self.buttonSurface.fill(self.fillColors['capture'])
     # If mouse on button then hover
     if self.buttonRect.collidepoint(mousePos):
         self.buttonSurface.fill(self.fillColors['hover'])
