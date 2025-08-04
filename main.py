@@ -241,6 +241,51 @@ def show_board(board):
   print("____________")
   pygame.display.update()
 
+def minimax(board, depth, is_max, max_depth):
+  # End states
+  if winner(board)==1:
+     return 1
+  if winner(board)==-1:
+     return -1
+  if winner(board)==0:
+     return 0
+  # CPU turn, want to maximise score
+  if is_max:
+     best_score= float("-inf")
+     for i in range(6):
+        boardCopy = copy.deepcopy(board)
+        if move_valid(boardCopy,i+7,err_msg=0):
+          boardCopy.move(i+7,msgs=0)
+          if depth <=max_depth:
+             score = minimax(boardCopy, depth=depth+1,is_max=False,max_depth=max_depth)
+          else: return best_score
+          best_score = max(score,best_score)
+     return best_score
+  else:
+     best_score= float("inf")
+     for i in range(6):
+        boardCopy = copy.deepcopy(board)
+        if move_valid(boardCopy,i,err_msg=0):
+          boardCopy.move(i,msgs=0)
+          if depth <=max_depth:
+             score = minimax(boardCopy, depth=depth+1,is_max=True,max_depth=max_depth)
+          else: return best_score
+          best_score = min(score,best_score)
+     return best_score
+  
+def best_move(board):
+   best_score = float("-inf")
+   best_move = None
+   for i in range(6):
+      boardCopy = copy.deepcopy(board)
+      if move_valid(boardCopy,i+7,err_msg=0):
+         boardCopy.move(i+7,msgs=0)
+         score=minimax(boardCopy,depth=0,is_max=False,max_depth=12)
+         if score > best_score:
+            best_score = score
+            best_move = i+7
+   return best_move
+
 # Function to make a CPU
 def cpu_move(board,cpu_option):
    if cpu_option=="random":
@@ -270,6 +315,9 @@ def cpu_move(board,cpu_option):
       # Pick first choice in list
       cpu_choice=list(outcome_sorted.keys())[0]
       return cpu_choice
+   
+   if cpu_option=="minimax":
+      return best_move(board)
 
 
  
