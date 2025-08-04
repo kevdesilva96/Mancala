@@ -220,6 +220,17 @@ def end_check(board):
     print("North score: "+str(north_score))
     print("South score: "+str(south_score))
     return True
+# Function to return winner of game (1 if CPU, -1 if Player, 0 if draw)
+def winner(board):
+  if sum([board.arr[i] for i in range(0,6)])==0 or sum([board.arr[i] for i in range(7,13)])==0:
+    north_score=sum([board.arr[i] for i in range(0,7)])
+    south_score=sum([board.arr[i] for i in range(7,14)])
+    if north_score > south_score:
+       return -1
+    elif south_score > north_score:
+       return 1
+    else:
+       return 0
 
 # Function to show board given board
 def show_board(board):
