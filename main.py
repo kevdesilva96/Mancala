@@ -110,7 +110,7 @@ def Game(name):
     # Do CPU move if CPU playing
     if cpu_flag==1 and player==2:
       pygame.time.wait(1000)
-      BoardObj.move(cpu_move(BoardObj,"scaredycat"))  
+      BoardObj.move(cpu_move(BoardObj,"minimax"))  
 
     # Check if end of game
     if end_check(BoardObj, msgs=1):
@@ -223,15 +223,14 @@ def end_check(board, msgs):
     return True
 # Function to return winner of game (1 if CPU, -1 if Player, 0 if draw)
 def winner(board):
-  if sum([board.arr[i] for i in range(0,6)])==0 or sum([board.arr[i] for i in range(7,13)])==0:
-    north_score=sum([board.arr[i] for i in range(0,7)])
-    south_score=sum([board.arr[i] for i in range(7,14)])
-    if north_score > south_score:
-       return -1
-    elif south_score > north_score:
-       return 1
-    else:
-       return 0
+  north_score=sum([board.arr[i] for i in range(0,7)])
+  south_score=sum([board.arr[i] for i in range(7,14)])
+  if north_score > south_score:
+      return -1
+  elif south_score > north_score:
+      return 1
+  else:
+      return 0
 
 # Function to show board given board
 def show_board(board):
@@ -242,13 +241,13 @@ def show_board(board):
   print("____________")
   pygame.display.update()
 
-def minimax(board, depth, is_max, max_depth):
+def minimax(board, depth, is_max, max_depth, alpha, beta):
   # End states
-  if winner(board)==1:
+  if end_check(board, msgs=0) and winner(board)==1:
      return 1
-  if winner(board)==-1:
+  if end_check(board, msgs=0) and winner(board)==-1:
      return -1
-  if winner(board)==0:
+  if end_check(board, msgs=0) and winner(board)==0:
      return 0
   # CPU turn, want to maximise score
   if is_max:
@@ -258,9 +257,12 @@ def minimax(board, depth, is_max, max_depth):
         if move_valid(boardCopy,i+7,err_msg=0):
           boardCopy.move(i+7,msgs=0)
           if depth <=max_depth:
-             score = minimax(boardCopy, depth=depth+1,is_max=False,max_depth=max_depth)
-          else: return best_score
-          best_score = max(score,best_score)
+             score = minimax(boardCopy, depth=depth+1,is_max=False,max_depth=max_depth,alpha=alpha, beta=beta)
+             best_score = max(score,best_score)
+             alpha = max(alpha,score)
+             if beta <= alpha:
+               break
+          else: return winner(boardCopy)
      return best_score
   else:
      best_score= float("inf")
@@ -269,9 +271,12 @@ def minimax(board, depth, is_max, max_depth):
         if move_valid(boardCopy,i,err_msg=0):
           boardCopy.move(i,msgs=0)
           if depth <=max_depth:
-             score = minimax(boardCopy, depth=depth+1,is_max=True,max_depth=max_depth)
-          else: return best_score
-          best_score = min(score,best_score)
+             score = minimax(boardCopy, depth=depth+1,is_max=True,max_depth=max_depth,alpha=alpha, beta=beta)
+             best_score = min(score,best_score)
+             beta = min(beta,score)
+             if beta <= alpha:
+               break
+          else: return winner(boardCopy)
      return best_score
   
 def best_move(board):
@@ -281,7 +286,7 @@ def best_move(board):
       boardCopy = copy.deepcopy(board)
       if move_valid(boardCopy,i+7,err_msg=0):
          boardCopy.move(i+7,msgs=0)
-         score=minimax(boardCopy,depth=0,is_max=False,max_depth=12)
+         score=minimax(boardCopy,depth=0,is_max=False,max_depth=11,alpha=float("-inf"), beta=float("inf"))
          if score > best_score:
             best_score = score
             best_move = i+7
