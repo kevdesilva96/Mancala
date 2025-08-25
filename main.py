@@ -113,7 +113,7 @@ def Game(name):
       BoardObj.move(cpu_move(BoardObj,"scaredycat"))  
 
     # Check if end of game
-    if end_check(BoardObj):
+    if end_check(BoardObj, msgs=1):
        quit_flag=0
        while quit_flag==0:
           for event in pygame.event.get(): 
@@ -212,13 +212,14 @@ def move_valid(board,pos,err_msg):
 
 
 # Function to check end of game given board
-def end_check(board):
+def end_check(board, msgs):
   if sum([board.arr[i] for i in range(0,6)])==0 or sum([board.arr[i] for i in range(7,13)])==0:
     north_score=sum([board.arr[i] for i in range(0,7)])
     south_score=sum([board.arr[i] for i in range(7,14)])
-    print("End of game!")
-    print("North score: "+str(north_score))
-    print("South score: "+str(south_score))
+    if msgs==1:
+      print("End of game!")
+      print("North score: "+str(north_score))
+      print("South score: "+str(south_score))
     return True
 # Function to return winner of game (1 if CPU, -1 if Player, 0 if draw)
 def winner(board):
