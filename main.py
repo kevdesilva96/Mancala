@@ -283,13 +283,14 @@ def best_move(board):
    best_score = float("-inf")
    best_move = None
    for i in range(6):
+      move_pos = 12-i
       boardCopy = copy.deepcopy(board)
-      if move_valid(boardCopy,i+7,err_msg=0):
-         boardCopy.move(i+7,msgs=0)
-         score=minimax(boardCopy,depth=0,is_max=False,max_depth=11,alpha=float("-inf"), beta=float("inf"))
+      if move_valid(boardCopy,move_pos,err_msg=0):
+         boardCopy.move(move_pos,msgs=0)
+         score=minimax(boardCopy,depth=0,is_max=False,max_depth=15,alpha=float("-inf"), beta=float("inf"))
          if score > best_score:
             best_score = score
-            best_move = i+7
+            best_move = move_pos
    return best_move
 
 # Function to make a CPU
