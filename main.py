@@ -287,7 +287,7 @@ def best_move(board):
       boardCopy = copy.deepcopy(board)
       if move_valid(boardCopy,move_pos,err_msg=0):
          boardCopy.move(move_pos,msgs=0)
-         score=minimax(boardCopy,depth=0,is_max=False,max_depth=15,alpha=float("-inf"), beta=float("inf"))
+         score=minimax(boardCopy,depth=0,is_max=False,max_depth=30,alpha=float("-inf"), beta=float("inf"))
          if score > best_score:
             best_score = score
             best_move = move_pos
