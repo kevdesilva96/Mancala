@@ -254,8 +254,8 @@ def minimax(board, depth, is_max, max_depth, alpha, beta):
      best_score= float("-inf")
      for i in range(6):
         boardCopy = copy.deepcopy(board)
-        if move_valid(boardCopy,i+7,err_msg=0):
-          boardCopy.move(i+7,msgs=0)
+        if move_valid(boardCopy,12-i,err_msg=0):
+          boardCopy.move(12-i,msgs=0)
           if depth <=max_depth:
              score = minimax(boardCopy, depth=depth+1,is_max=False,max_depth=max_depth,alpha=alpha, beta=beta)
              best_score = max(score,best_score)
@@ -268,8 +268,8 @@ def minimax(board, depth, is_max, max_depth, alpha, beta):
      best_score= float("inf")
      for i in range(6):
         boardCopy = copy.deepcopy(board)
-        if move_valid(boardCopy,i,err_msg=0):
-          boardCopy.move(i,msgs=0)
+        if move_valid(boardCopy,6-i,err_msg=0):
+          boardCopy.move(6-i,msgs=0)
           if depth <=max_depth:
              score = minimax(boardCopy, depth=depth+1,is_max=True,max_depth=max_depth,alpha=alpha, beta=beta)
              best_score = min(score,best_score)
